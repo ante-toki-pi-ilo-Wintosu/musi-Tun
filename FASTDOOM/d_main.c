@@ -1013,6 +1013,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_DOOM1);
             D_CheckFileSize(iwadfile, DOOM1WADSIZE);
             D_AddFile("doom1.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1030,6 +1031,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_DOOM);
             D_CheckFileSize(iwadfile, DOOMWADSIZE);
             D_AddFile("doom.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1047,6 +1049,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_DOOMU);
             D_CheckFileSize(iwadfile, ULTIMATEDOOMWADSIZE);
             D_AddFile("doomu.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1064,6 +1067,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_DOOM2);
             D_CheckFileSize(iwadfile, DOOM2WADSIZE);
             D_AddFile("doom2.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1081,6 +1085,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_PLUT);
             D_CheckFileSize2(iwadfile, PLUTONIAWADSIZE1, PLUTONIAWADSIZE2);
             D_AddFile("plutonia.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1098,6 +1103,7 @@ void LoadIWAD(int selection)
             strcpy(savegamename, SAVEGAMENAME_TNT);
             D_CheckFileSize2(iwadfile, TNTWADSIZE1, TNTWADSIZE2);
             D_AddFile("tnt.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1114,6 +1120,7 @@ void LoadIWAD(int selection)
             strcpy(iwadfile, "freedm1.wad");
             strcpy(savegamename, SAVEGAMENAME_FREEDOOM1);
             D_AddFile("freedm1.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else
@@ -1130,6 +1137,7 @@ void LoadIWAD(int selection)
             strcpy(iwadfile, "freedm2.wad");
             strcpy(savegamename, SAVEGAMENAME_FREEDOOM2);
             D_AddFile("freedm2.wad");
+            D_AddFile("tok.wad");
             return;
         }
         else

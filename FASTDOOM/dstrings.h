@@ -19,7 +19,7 @@
 #ifndef __DSTRINGS__
 #define __DSTRINGS__
 
-#include "d_englsh.h"
+#include "d_tok.h"
 
 // Misc. other strings.
 //#define SAVEGAMENAME "fdoomsv%d.dsg"

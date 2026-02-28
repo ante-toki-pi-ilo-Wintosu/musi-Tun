@@ -2,7 +2,8 @@ final_dir=""
 
 for dir in \
         "/usr/bin/watcom" \
-        "/opt/watcom"
+        "/opt/watcom" \
+        "/c/watcom"
 do
     if [ -d "$dir" ]; then
         final_dir=$dir
@@ -22,7 +23,7 @@ else
         export PATH=$WATCOM/arml64:$PATH
     elif [[ "$arch" == "x86_64" ]]; then
         echo "X86_64 architecture"
-        export PATH=$WATCOM/binl64:$PATH
+        export PATH=$WATCOM/binnt64:$PATH
     else
         export PATH=$WATCOM/binl:$PATH
     fi
