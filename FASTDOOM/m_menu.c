@@ -67,7 +67,7 @@
 #include "i_vga13h.h"
 #endif
 
-extern patch_t *hu_font[HU_FONTSIZE];
+extern patch_t *hu_font[TOTAL_FNTSZ];
 extern byte message_dontfuckwithme;
 
 //
@@ -2220,7 +2220,7 @@ int M_StringWidth(char *string)
     for (i = 0; i < strlen(string); i++)
     {
         c = toupper(string[i]) - HU_FONTSTART;
-        if (c < 0 || c >= HU_FONTSIZE)
+        if (c < 0 || c >= TOTAL_FNTSZ)
             w += 4;
         else
         {
@@ -2261,45 +2261,85 @@ int M_StringHeight(char *string)
 //
 //      Write a string using the hu_font
 //
+
+static uint32_t utf8_peek(const unsigned char *p, size_t *len)
+{
+    uint32_t cp;
+    size_t l, j;
+
+    if (*p < 0x80) { cp = *p; l = 1; }
+    else if ((*p & 0xE0) == 0xC0) { cp = *p & 0x1F; l = 2; }
+    else if ((*p & 0xF0) == 0xE0) { cp = *p & 0x0F; l = 3; }
+    else if ((*p & 0xF8) == 0xF0) { cp = *p & 0x07; l = 4; }
+    else { *len = 1; return 0; }
+
+    for (j = 1; j < l; j++) {
+        if ((p[j] & 0xC0) != 0x80) { *len = 1; return 0; }
+        cp = (cp << 6) | (p[j] & 0x3F);
+    }
+
+    *len = l;
+    return cp;
+}
+
 #if defined(MODE_X) || defined(MODE_Y) || defined(MODE_Y_HALF) || defined(USE_BACKBUFFER) || defined(MODE_VBE2_DIRECT)
 void M_WriteText(int x, int y, char *string)
 {
     int w;
-    char *ch;
-    int c;
-    int cx;
-    int cy;
+    uint32_t c;
+    int cx = x;
+    int cy = y;
+    const unsigned char *p = (const unsigned char *)string;
 
-    ch = string;
-    cx = x;
-    cy = y;
-
-    while (1)
+    while (*p)
     {
-        c = *ch++;
-        if (!c)
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        /* End of string */
+        if (*p == '\0')
             break;
-        if (c == '\n')
+
+        /* Newline */
+        if (cp == '\n')
         {
             cx = x;
             cy += 12;
+            p += len;
             continue;
         }
 
-        c = toupper(c) - HU_FONTSTART;
-        if (c < 0 || c >= HU_FONTSIZE)
+        /* sitelen pona */
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+        {
+            c = HU_FONTSIZE + (cp%256);
+        }
+        /* ascii */
+        else
+        {
+            c = toupper(cp) - HU_FONTSTART;
+        }
+
+        /* not in font */
+        if (c < 0 || c >= TOTAL_FNTSZ * 2)
         {
             cx += 4;
+            p += len;
             continue;
         }
 
+        /* render */
         w = hu_font[c]->width;
         if (cx + w > SCREENWIDTH)
             break;
+
         V_DrawPatchDirectCentered(cx, cy, hu_font[c]);
         cx += w;
+        p += len;
     }
 }
+
+
 #endif
 
 //
@@ -2351,7 +2391,7 @@ byte M_Responder(void)
         default:
             ch = toupper(ch);
             if (ch != 32)
-                if (ch - HU_FONTSTART < 0 || ch - HU_FONTSTART >= HU_FONTSIZE)
+                if (ch - HU_FONTSTART < 0 || ch - HU_FONTSTART >= TOTAL_FNTSZ)
                     break;
             if (ch >= 32 && ch <= 127 &&
                 saveCharIndex < SAVESTRINGSIZE - 1 &&

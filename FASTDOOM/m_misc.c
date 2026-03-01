@@ -52,7 +52,7 @@
 int myargc;
 char **myargv;
 
-extern patch_t *hu_font[HU_FONTSIZE];
+extern patch_t *hu_font[TOTAL_FNTSZ];
 
 //
 // M_CheckParm

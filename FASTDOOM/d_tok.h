@@ -1,20 +1,20 @@
 //
-// Copyright (C) 1993-1996 Id Software, Inc.
-// Copyright (C) 2016-2017 Alexey Khokholov (Nuke.YKT)
+// Copyright (C) 1993-1996 Id Software, Inc󱦜
+// Copyright (C) 2016-2017 Alexey Khokholov (Nuke󱦜YKT)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
+// of the License, or (at your option) any later version󱦜
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE󱦜  See the
+// GNU General Public License for more details󱦜
 //
 // DESCRIPTION:
-//	Printed strings for translation.
-//	English language support (default).
+//	Printed strings for translation󱦜
+//	English language support (default)󱦜
 //
 
 #ifndef __D_ENGLSH__
@@ -27,10 +27,10 @@
 //
 
 //
-//	M_Menu.C
+//	M_Menu󱦜C
 //
-#define PRESSKEY "press a key."
-#define PRESSYN "press y or n."
+#define PRESSKEY "press a key󱦜"
+#define PRESSYN "press y or n󱦜"
 
 #define MSGOFF "Messages OFF"
 #define MSGON "Messages ON"
@@ -43,66 +43,66 @@
 #define AUTORUNOFF "Autorun disabled"
 
 //
-//	P_inter.C
+//	P_inter󱦜C
 //
-#define GOTARMOR "sina lanpan e ilo awen."
-#define GOTMEGA "sina lanpan e ilo awen suli!"
-#define GOTHTHBONUS "sina lanpan e ilo pona lili."
-#define GOTARMBONUS "sina lanpan e ilo awen."
-#define GOTSTIM "sina lanpan e ilo pona."
-#define GOTMEDIKIT "sina lanpan e ilo pona suli."
-#define GOTSUPER "wawa a!"
+#define GOTARMOR "󱥞󱦅󱤉󱤎󱤈󱦜"
+#define GOTMEGA "󱥞󱦅󱤉󱤎󱤈󱥣󱤀"
+#define GOTHTHBONUS "󱥞󱦅󱤉󱤎󱥔󱤨󱦜"
+#define GOTARMBONUS "󱥞󱦅󱤉󱤎󱤈󱦜"
+#define GOTSTIM "󱥞󱦅󱤉󱤎󱥔󱦜"
+#define GOTMEDIKIT "󱥞󱦅󱤉󱤎󱥔󱥣󱦜"
+#define GOTSUPER "󱥵󱤀"
 
-#define GOTBLUECARD "sina lanpan e lipu laso."
-#define GOTYELWCARD "sina lanpan e lipu jelo."
-#define GOTREDCARD  "sina lanpan e lipu loje."
-#define GOTBLUESKUL "sina lanpan e lawa laso."
-#define GOTYELWSKUL "sina lanpan e lawa jelo."
-#define GOTREDSKULL "sina lanpan e lawa loje."
+#define GOTBLUECARD "󱥞󱦅󱤉󱤪󱤣󱦜"
+#define GOTYELWCARD "󱥞󱦅󱤉󱤪󱤒󱦜"
+#define GOTREDCARD  "󱥞󱦅󱤉󱤪󱤫󱦜"
+#define GOTBLUESKUL "󱥞󱦅󱤉󱤤󱤣󱦜"
+#define GOTYELWSKUL "󱥞󱦅󱤉󱤤󱤒󱦜"
+#define GOTREDSKULL "󱥞󱦅󱤉󱤤󱤫󱦜"
 
-#define GOTINVUL "jan sewi!"
-#define GOTBERSERK "wawa suli!"
-#define GOTINVIS "len lili"
-#define GOTSUIT "len pi weka wawa nasa"
-#define GOTMAP "ilo lipu ma"
-#define GOTVISOR "ilo lukin suno"
-#define GOTMSPHERE "sike wawa!"
+#define GOTINVUL "󱤑󱥚󱤀"
+#define GOTBERSERK "󱥵󱥣󱤀"
+#define GOTINVIS "󱤥󱤨"
+#define GOTSUIT "󱤥󱥍󱥶󱥵󱤾"
+#define GOTMAP "󱤎󱤪󱤰"
+#define GOTVISOR "󱤎󱤮󱥤"
+#define GOTMSPHERE "󱥜󱥵󱤀"
 
-#define GOTCLIP "sina lanpan e poki lili pi sike lili."
-#define GOTCLIPBOX "sina lanpan e poki pi sike lili."
-#define GOTROCKET "sina lanpan e palisa moli."
-#define GOTROCKBOX "sina lanpan e poki pi palisa moli."
-#define GOTCELL "sina lanpan e ijo wawa."
-#define GOTCELLBOX "sina lanpan e poki pi ijo wawa."
-#define GOTSHELLS "sina lanpan e palisa lili tu tu."
-#define GOTSHELLBOX "sina lanpan e poki pi palisa lili."
-#define GOTBACKPACK "sina lanpan e poki suli!"
+#define GOTCLIP "󱥞󱦅󱤉󱥓󱤨󱥍󱥜󱤨󱦜"
+#define GOTCLIPBOX "󱥞󱦅󱤉󱥓󱥍󱥜󱤨󱦜"
+#define GOTROCKET "󱥞󱦅󱤉󱥊󱤷󱦜"
+#define GOTROCKBOX "󱥞󱦅󱤉󱥓󱥍󱥊󱤷󱦜"
+#define GOTCELL "󱥞󱦅󱤉󱤌󱥵󱦜"
+#define GOTCELLBOX "󱥞󱦅󱤉󱥓󱥍󱤌󱥵󱦜"
+#define GOTSHELLS "󱥞󱦅󱤉󱥊󱤨󱥮󱥮󱦜"
+#define GOTSHELLBOX "󱥞󱦅󱤉󱥓󱥍󱥊󱤨󱦜"
+#define GOTBACKPACK "󱥞󱦅󱤉󱥓󱥣󱤀"
 
-#define GOTBFG9000  "sina lanpan e ilo BFG9000! ni li pona mute!"
-#define GOTCHAINGUN "sina lanpan e ilo suli!"
-#define GOTCHAINSAW "ni li ilo kipisi! o alasa e sijelo!"
-#define GOTLAUNCHER "sina lanpan e ilo pakala moli!"
-#define GOTPLASMA   "sina lanpan e ilo wawa!!"
-#define GOTSHOTGUN  "sina lanpan e palisa moli!"
-#define GOTSHOTGUN2 "sina lanpan e palisa moli suli!"
-
-//
-// P_Doors.C
-//
-#define PD_BLUEO    "sina wile open e nena ni la sina wile jo e lipu laso."
-#define PD_REDO     "sina wile open e nena ni la sina wile jo e lipu loje."
-#define PD_YELLOWO  "sina wile open e nena ni la sina wile jo e lipu jelo."
-#define PD_BLUEK    "sina wile open e nena ni la sina wile jo e lawa laso."
-#define PD_REDK     "sina wile open e nena ni la sina wile jo e lawa loje."
-#define PD_YELLOWK  "sina wile open e nena ni la sina wile jo e lawa jelo."
+#define GOTBFG9000  "󱥞󱦅󱤉󱤎BFG9000󱤀 󱥁󱤧󱥔󱤼󱤀"
+#define GOTCHAINGUN "󱥞󱦅󱤉󱤎󱥣󱤀"
+#define GOTCHAINSAW "󱥁󱤧󱤎󱥻󱤀󱥄󱤃󱤉󱥛󱤀"
+#define GOTLAUNCHER "󱥞󱦅󱤉󱤎󱥈󱤷󱤀"
+#define GOTPLASMA   "󱥞󱦅󱤉󱤎󱥵󱤀"
+#define GOTSHOTGUN  "󱥞󱦅󱤉󱥊󱤷󱤀"
+#define GOTSHOTGUN2 "󱥞󱦅󱤉󱥊󱤷󱥣󱤀"
 
 //
-//	G_game.C
+// P_Doors󱦜C
 //
-#define GGSAVED "musi li awen."
+#define PD_BLUEO    "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤪󱤣󱦜"
+#define PD_REDO     "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤪󱤫󱦜"
+#define PD_YELLOWO  "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤪󱤒󱦜"
+#define PD_BLUEK    "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤤󱤣󱦜"
+#define PD_REDK     "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤤󱤫󱦜"
+#define PD_YELLOWK  "󱥞󱥷󱥇󱤉󱥀󱥁󱤡󱥞󱥷󱤓󱤉󱤤󱤒󱦜"
 
 //
-//	AM_map.C
+//	G_game󱦜C
+//
+#define GGSAVED "󱤻󱤧󱤈󱦜"
+
+//
+//	AM_map󱦜C
 //
 
 #define AMSTR_FOLLOWON "Follow Mode ON"
@@ -118,7 +118,7 @@
 #define AMSTR_MARKSCLEARED "All Marks Cleared"
 
 //
-//	ST_stuff.C
+//	ST_stuff󱦜C
 //
 
 #define STSTR_MUS "Music Change"
@@ -135,28 +135,28 @@
 #define STSTR_BEHOLD "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp"
 #define STSTR_BEHOLDX "Power-up Toggled"
 
-#define STSTR_CHOPPERS "... doesn't suck - GM"
-#define STSTR_CLEV "Changing Level..."
+#define STSTR_CHOPPERS "󱦜󱦜󱦜 doesn't suck - GM"
+#define STSTR_CLEV "Changing Level󱦜󱦜󱦜"
 
 //
-// Character cast strings F_FINALE.C
+// Character cast strings F_FINALE󱦜C
 //
-#define CC_ZOMBIE "jan moli ala"
-#define CC_SHOTGUN "jan moli pi palisa moli"
-#define CC_HEAVY "jan suli"
-#define CC_IMP "jan monsuta"
-#define CC_DEMON "monsuta"
-#define CC_LOST "kon jan ike"
-#define CC_CACO "monsuta sike"
-#define CC_HELL "monsuta utala pi ma anpa"
-#define CC_BARON "monsuta suli pi ma anpa"
-#define CC_ARACH "pipi moli"
-#define CC_PAIN "monsuta sike moli"
-#define CC_REVEN "jan moli pi palisa moli"
-#define CC_MANCU "jan suli pi wawa mute"
-#define CC_ARCH "monsuta usawi"
-#define CC_SPIDER "pipi suli moli"
-#define CC_CYBER "monsuta lawa"
-#define CC_HERO "sina"
+#define CC_ZOMBIE "󱤑󱤷󱤂"
+#define CC_SHOTGUN "󱤑󱤷󱥍󱥊󱤷"
+#define CC_HEAVY "󱤑󱥣"
+#define CC_IMP "󱤑󱥽"
+#define CC_DEMON "󱥽"
+#define CC_LOST "󱤝󱤑󱤍"
+#define CC_CACO "󱥽󱥜"
+#define CC_HELL "󱥽󱥱󱥍󱤰󱤅"
+#define cc_baron "󱥽󱥣󱥍󱤰󱤅"
+#define cc_arach"󱥑󱤷"
+#define cc_pain "󱥽󱥜󱤷"
+#define cc_reven "󱤑󱤷󱥍󱥊󱤷"
+#define cc_mancu"󱤑󱥣󱥍󱥵󱤼"
+#define cc_arch "󱥽󱥵󱤾"
+#define cc_spider" 󱥑󱥣󱤷"
+#define cc_cyber "󱥽󱤤"
+#define cc_hero "󱥞"
 
 #endif

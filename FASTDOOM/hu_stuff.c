@@ -52,7 +52,7 @@
 #define HU_INPUTWIDTH 64
 #define HU_INPUTHEIGHT 1
 
-patch_t *hu_font[HU_FONTSIZE];
+patch_t *hu_font[TOTAL_FNTSZ];
 static hu_textline_t w_title;
 static hu_textline_t w_fps;
 
@@ -72,14 +72,20 @@ void HU_Init(void)
 
     int i;
     int j;
-    char buffer[9];
 
     // load the heads-up font
     j = HU_FONTSTART;
-    for (i = 0; i < HU_FONTSIZE; i++)
+    for (i = 0; i < TOTAL_FNTSZ; i++)
     {
+        char buffer[9];
         sprintf(buffer, "STCFN%.3d", j++);
         hu_font[i] = (patch_t *)W_CacheLumpName(buffer, PU_STATIC);
+    }
+    for (i = 0; i < SP_LENGTH; i++)
+    {
+        char buffer[5];
+        sprintf(buffer, "SP%.3d", i);
+        hu_font[HU_FONTSIZE + i] = (patch_t *)W_CacheLumpName(buffer, PU_STATIC);
     }
 }
 #endif

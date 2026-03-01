@@ -26,8 +26,12 @@
 #define HU_FONTSTART '!' // the first font characters
 #define HU_FONTEND '_'   // the last font characters
 
+#define SP_START 256
+#define SP_LENGTH 0x9F
+
 // Calculate # of glyphs in font.
 #define HU_FONTSIZE (HU_FONTEND - HU_FONTSTART + 1)
+#define TOTAL_FNTSZ ((HU_FONTSIZE * 2) + (SP_LENGTH+32))
 
 #define HU_BROADCAST 5
 

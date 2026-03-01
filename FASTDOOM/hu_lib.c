@@ -15,6 +15,33 @@
 // DESCRIPTION:  heads-up text and input code
 //
 
+#include <string.h>
+#include <stdio.h>
+
+#include <stdint.h>
+#include <stddef.h>
+
+static uint32_t utf8_peek(const unsigned char *p, size_t *len)
+{
+    uint32_t cp;
+    size_t l, j;
+
+    if (*p < 0x80) { cp = *p; l = 1; }
+    else if ((*p & 0xE0) == 0xC0) { cp = *p & 0x1F; l = 2; }
+    else if ((*p & 0xF0) == 0xE0) { cp = *p & 0x0F; l = 3; }
+    else if ((*p & 0xF8) == 0xF0) { cp = *p & 0x07; l = 4; }
+    else { *len = 1; return 0; }
+
+    for (j = 1; j < l; j++) {
+        if ((p[j] & 0xC0) != 0x80) { *len = 1; return 0; }
+        cp = (cp << 6) | (p[j] & 0x3F);
+    }
+
+    *len = l;
+    return cp;
+}
+
+
 #include "std_func.h"
 
 #include "doomdef.h"
@@ -28,6 +55,7 @@
 #include "doomstat.h"
 
 #include "options.h"
+#include "hu_stuff.h"
 
 // boolean : whether the screen is always erased
 #define noterased viewwindowx
@@ -70,61 +98,107 @@ void HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 
 void HUlib_drawTextLine(hu_textline_t *l)
 {
-
-    int i;
+    int i = 0;
     int w;
     int x;
-    unsigned char c;
+    uint32_t c;
+    const unsigned char *p = (const unsigned char *)l->l;
+
 #if defined(MODE_T4025) || defined(MODE_T4050)
     x = l->x / 8;
-    for (i = 0; i < l->len; i++)
+    while (*p && i < l->len)
     {
-        c = toupper(l->l[i]);
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+            c = HU_FONTSIZE + (cp % 256);
+        else
+            c = toupper(cp);
+
         V_WriteCharDirect(x, l->y / 8, c);
         x++;
+        p += len;
+        i++;
     }
 #endif
+
 #if defined(MODE_T8025) || defined(MODE_MDA) || defined(MODE_COLOR_MDA)
     x = l->x / 4;
-    for (i = 0; i < l->len; i++)
+    while (*p && i < l->len)
     {
-        c = toupper(l->l[i]);
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+            c = HU_FONTSIZE + (cp % 256);
+        else
+            c = toupper(cp);
+
         V_WriteCharDirect(x, l->y / 8, c);
         x++;
+        p += len;
+        i++;
     }
 #endif
+
 #if defined(MODE_T8043)
     x = l->x / 4;
-    for (i = 0; i < l->len; i++)
+    while (*p && i < l->len)
     {
-        c = toupper(l->l[i]);
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+            c = HU_FONTSIZE + (cp % 256);
+        else
+            c = toupper(cp);
+
         V_WriteCharDirect(x, l->y / 4, c);
         x++;
+        p += len;
+        i++;
     }
 #endif
+
 #if defined(MODE_T8050)
     x = l->x / 4;
-    for (i = 0; i < l->len; i++)
+    while (*p && i < l->len)
     {
-        c = toupper(l->l[i]);
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+            c = HU_FONTSIZE + (cp % 256);
+        else
+            c = toupper(cp);
+
         V_WriteCharDirect(x, l->y / 4, c);
         x++;
+        p += len;
+        i++;
     }
 #endif
+
 #if defined(MODE_X) || defined(MODE_Y) || defined(MODE_Y_HALF) || defined(USE_BACKBUFFER) || defined(MODE_VBE2_DIRECT)
-    // draw the new stuff
     x = l->x;
-    for (i = 0; i < l->len; i++)
+    while (*p && i < l->len)
     {
-        c = toupper(l->l[i]);
-        if (c != ' ' && c >= l->sc && c <= '_')
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+            c = HU_FONTSIZE + (cp % 256);
+        else
+            c = toupper(cp) - l->sc;
+
+        if (c >= 0 && c < TOTAL_FNTSZ)
         {
-            w = l->f[c - l->sc]->width;
+            w = l->f[c]->width;
             if (x + w > SCREENWIDTH)
                 break;
 
-            V_DrawPatchDirect(x, l->y, l->f[c - l->sc]);
-
+            V_DrawPatchDirect(x, l->y, l->f[c]);
             x += w;
         }
         else
@@ -133,9 +207,13 @@ void HUlib_drawTextLine(hu_textline_t *l)
             if (x >= SCREENWIDTH)
                 break;
         }
+
+        p += len;
+        i++;
     }
 #endif
 }
+
 
 // sorta called by HU_Erase and just better darn get things straight
 void HUlib_eraseTextLine(hu_textline_t *l)

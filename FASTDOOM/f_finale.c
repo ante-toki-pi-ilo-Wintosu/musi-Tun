@@ -19,6 +19,9 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <stdint.h>
+#include <stddef.h>
+
 #include "std_func.h"
 
 // Functions.
@@ -286,89 +289,119 @@ void F_Ticker(void)
 //
 
 #include "hu_stuff.h"
-extern patch_t *hu_font[HU_FONTSIZE];
+extern patch_t *hu_font[TOTAL_FNTSZ];
+
+static uint32_t utf8_peek(const unsigned char *p, size_t *len)
+{
+    uint32_t cp;
+    size_t l, j;
+
+    if (*p < 0x80) { cp = *p; l = 1; }
+    else if ((*p & 0xE0) == 0xC0) { cp = *p & 0x1F; l = 2; }
+    else if ((*p & 0xF0) == 0xE0) { cp = *p & 0x0F; l = 3; }
+    else if ((*p & 0xF8) == 0xF0) { cp = *p & 0x07; l = 4; }
+    else { *len = 1; return 0; }
+
+    for (j = 1; j < l; j++) {
+        if ((p[j] & 0xC0) != 0x80) { *len = 1; return 0; }
+        cp = (cp << 6) | (p[j] & 0x3F);
+    }
+
+    *len = l;
+    return cp;
+}
 
 #if defined(MODE_X) || defined(MODE_Y) || defined(MODE_Y_HALF) || defined(USE_BACKBUFFER) || defined(MODE_VBE2_DIRECT)
 void F_TextWrite(void)
 {
-	byte *src;
-	byte *dest;
+    byte *src;
+    byte *dest;
+    int x, y, w;
+    int count;
+    const unsigned char *p;
+    uint32_t c;
+    int cx;
+    int cy;
 
-	int x, y, w;
-	int count;
-	char *ch;
-	int c;
-	int cx;
-	int cy;
-
-	// erase the entire screen to a tiled background
-	src = W_CacheLumpName(finaleflat, PU_CACHE);
+    src = W_CacheLumpName(finaleflat, PU_CACHE);
 #if defined(MODE_X) || defined(MODE_Y) || defined(MODE_Y_HALF) || defined(MODE_VBE2_DIRECT)
-	dest = screen0;
+    dest = screen0;
 #endif
 #if defined(USE_BACKBUFFER)
-	dest = backbuffer;
+    dest = backbuffer;
 #endif
 
-	for (y = 0; y < SCREENHEIGHT; y++)
-	{
-		byte *srcptr = src + ((y & 63) << 6);
-
-		for (x = 0; x < SCREENWIDTH / 64; x++)
-		{
-			CopyDWords(srcptr, dest, 16);
-			dest += 64;
-		}
-
+    for (y = 0; y < SCREENHEIGHT; y++)
+    {
+        byte *srcptr = src + ((y & 63) << 6);
+        for (x = 0; x < SCREENWIDTH / 64; x++)
+        {
+            CopyDWords(srcptr, dest, 16);
+            dest += 64;
+        }
 #if SCREENWIDTH % 64 > 0
-		CopyDWords(srcptr, dest, (SCREENWIDTH % 64) / 4);
-		dest += (SCREENWIDTH % 64);
+        CopyDWords(srcptr, dest, (SCREENWIDTH % 64) / 4);
+        dest += (SCREENWIDTH % 64);
 #endif
-	}
+    }
 
 #if defined(MODE_X) || defined(MODE_Y) || defined(MODE_Y_HALF) || defined(MODE_VBE2_DIRECT)
-	V_MarkRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    V_MarkRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
 #endif
 
-	// draw some of the text onto the screen
-	cx = 10;
-	cy = 10;
-	ch = finaletext;
+    cx = 10;
+    cy = 10;
+    p = (const unsigned char *)finaletext;
 
-	count = (finalecount - 10) / 3;
-	if (count < 0)
-		count = 0;
-	for (; count; count--)
-	{
-		c = *ch++;
-		if (!c)
-			break;
-		if (c == '\n')
-		{
-			cx = 10;
-			cy += 11;
-			continue;
-		}
+    count = (finalecount - 10) / 3;
+    if (count < 0)
+        count = 0;
 
-		c = toupper(c) - HU_FONTSTART;
-		if (c < 0 || c > HU_FONTSIZE)
-		{
-			cx += 4;
-			continue;
-		}
+    while (count-- && *p)
+    {
+        size_t len;
+        uint32_t cp = utf8_peek(p, &len);
 
-		w = hu_font[c]->width;
-		if (cx + w > SCREENWIDTH)
-			break;
+        if (*p == '\0')
+            break;
 
-		#if defined(MODE_Y_HALF)
-			V_DrawPatchModeCentered(cx, cy / 2, hu_font[c]);
-		#else
-			V_DrawPatchModeCentered(cx, cy, hu_font[c]);
-		#endif
-    
-		cx += w;
-	}
+        if (cp == '\n')
+        {
+            cx = 10;
+            cy += 11;
+            p += len;
+            continue;
+        }
+
+        if (cp >= 0xF1900 && cp < 0xF19FF)
+        {
+            c = HU_FONTSIZE + (cp % 256);
+        }
+        else
+        {
+            c = toupper(cp) - HU_FONTSTART;
+        }
+
+        if (c < 0 || c >= TOTAL_FNTSZ * 2)
+        {
+            cx += 4;
+            p += len;
+            continue;
+        }
+
+        w = hu_font[c]->width;
+        if (cx + w > SCREENWIDTH)
+            break;
+
+#if defined(MODE_Y_HALF)
+        V_DrawPatchModeCentered(cx, cy / 2, hu_font[c]);
+#else
+        V_DrawPatchModeCentered(cx, cy, hu_font[c]);
+#endif
+
+        cx += w;
+        p += len;
+    }
 }
 #endif
 
@@ -676,7 +709,7 @@ void F_CastPrint(char *text)
 		if (!c)
 			break;
 		c = toupper(c) - HU_FONTSTART;
-		if (c < 0 || c > HU_FONTSIZE)
+		if (c < 0 || c > TOTAL_FNTSZ)
 		{
 			width += 4;
 			continue;
@@ -695,7 +728,7 @@ void F_CastPrint(char *text)
 		if (!c)
 			break;
 		c = toupper(c) - HU_FONTSTART;
-		if (c < 0 || c > HU_FONTSIZE)
+		if (c < 0 || c > TOTAL_FNTSZ)
 		{
 			cx += 4;
 			continue;
